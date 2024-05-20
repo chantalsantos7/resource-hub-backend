@@ -27,7 +27,7 @@ public class AuthServices {
     }
 
     public User signupUser(User user) {
-        //TODO: Password hashing so raw passwords aren't stored in DB - TDD
+        //TODO: Password hashing so raw passwords aren't stored in DB - TDD (Spring Security adds too much complexity)
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email already has an account associated with it");
         }
@@ -40,11 +40,10 @@ public class AuthServices {
     public User loginUser(User user) {
         //check if the email provided is in the DB
         //check if the password provided matches with the entry for that email
-        var userFromDb = userRepository.findByEmail(user.getEmail());
-        if (Objects.equals(user.getPassword(), userFromDb.getPassword())) {
+        User userFromDb = userRepository.findByEmail(user.getEmail());
+        if (userFromDb != null && user.getPassword().equals(userFromDb.getPassword())) {
             return userFromDb;
         }
-
-        return null; //TODO: Throw ResponseStatusException instead?
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid login credentials");
     }
 }

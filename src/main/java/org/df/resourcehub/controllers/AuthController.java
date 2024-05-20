@@ -2,6 +2,7 @@ package org.df.resourcehub.controllers;
 
 import jakarta.validation.Valid;
 import org.df.resourcehub.models.User;
+import org.df.resourcehub.reponses.RequestResponse;
 import org.df.resourcehub.services.AuthServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,16 +27,23 @@ public class AuthController {
         this.authServices = authServices;
     }
 
-    //Test method only, do not actually want a GET route for getting user details
-    @GetMapping(value = "auth/users")
-    public List<User> getAllUsers() {
-        return authServices.getAllUsers();
-    }
+//    //Test method only, do not actually want a GET route for getting user details
+//    @GetMapping(value = "auth/users")
+//    public List<User> getAllUsers() {
+//        return authServices.getAllUsers();
+//    }
 
     @PostMapping(value="auth/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public User postSignup(@Valid @RequestBody User user) {
-        return authServices.signupUser(user);
+    public RequestResponse postSignup(@Valid @RequestBody User user) {
+        authServices.signupUser(user);
+        return new RequestResponse("Signup successful");
+    }
+
+    @PostMapping(value = "auth/login")
+    public RequestResponse postLogin(@Valid @RequestBody User user) {
+        authServices.loginUser(user);
+        return new RequestResponse("Login successful");
     }
 
 }
