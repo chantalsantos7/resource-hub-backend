@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,23 +29,25 @@ public class AuthController {
         this.authServices = authServices;
     }
 
-//    //Test method only, do not actually want a GET route for getting user details
-//    @GetMapping(value = "auth/users")
-//    public List<User> getAllUsers() {
-//        return authServices.getAllUsers();
-//    }
 
-    @PostMapping(value="auth/signup")
-    @ResponseStatus(HttpStatus.CREATED)
-    public RequestResponse postSignup(@Valid @RequestBody User user) {
+@PostMapping(value="auth/signup")
+public ResponseEntity<RequestResponse> postSignup(@Valid @RequestBody User user) {
+    try {
         authServices.signupUser(user);
-        return new RequestResponse("Signup successful");
+        return new ResponseEntity<>(new RequestResponse("Signup successful"), HttpStatus.CREATED);
+    } catch (ResponseStatusException e) {
+        return new ResponseEntity<>(new RequestResponse(e.getReason()), HttpStatus.BAD_REQUEST);
     }
+}
 
     @PostMapping(value = "auth/login")
-    public RequestResponse postLogin(@Valid @RequestBody User user) {
-        authServices.loginUser(user);
-        return new RequestResponse("Login successful");
+    public ResponseEntity<RequestResponse> postLogin(@Valid @RequestBody User user) {
+       try {
+           authServices.loginUser(user);
+           return new ResponseEntity<>(new RequestResponse("Login successful"), HttpStatus.ACCEPTED);
+       } catch (ResponseStatusException e) {
+           return new ResponseEntity<>(new RequestResponse(e.getReason()), HttpStatus.UNAUTHORIZED);
+       }
     }
 
 }
