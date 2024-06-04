@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AuthResponse extends RequestResponse {
     @JsonProperty("token")
-    private String token;
+    private String id;
 
-    public AuthResponse(String message) {
+    public AuthResponse(String message, String id) {
         super(message);
+        this.id = id;
     }
 }

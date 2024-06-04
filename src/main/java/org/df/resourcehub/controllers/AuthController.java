@@ -2,6 +2,7 @@ package org.df.resourcehub.controllers;
 
 import jakarta.validation.Valid;
 import org.df.resourcehub.models.User;
+import org.df.resourcehub.reponses.AuthResponse;
 import org.df.resourcehub.reponses.RequestResponse;
 import org.df.resourcehub.services.AuthServices;
 import org.slf4j.Logger;
@@ -43,8 +44,8 @@ public ResponseEntity<RequestResponse> postSignup(@Valid @RequestBody User user)
     @PostMapping(value = "auth/login")
     public ResponseEntity<RequestResponse> postLogin(@Valid @RequestBody User user) {
        try {
-           authServices.loginUser(user);
-           return new ResponseEntity<>(new RequestResponse("Login successful"), HttpStatus.ACCEPTED);
+           User loggedInUser = authServices.loginUser(user);
+           return new ResponseEntity<>(new AuthResponse("Login successful", loggedInUser.getId()), HttpStatus.ACCEPTED);
        } catch (ResponseStatusException e) {
            return new ResponseEntity<>(new RequestResponse(e.getReason()), HttpStatus.UNAUTHORIZED);
        }

@@ -23,8 +23,10 @@ public class User {
     @JsonProperty("name")
     private String name;
 
-    public String get_id() {
-        return _id;
+    public User() {}
+
+    public User(String email) {
+        this.email = email;
     }
 
     public void set_id(String _id) {
@@ -53,5 +55,9 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getId() {
+        return _id;
     }
 }
