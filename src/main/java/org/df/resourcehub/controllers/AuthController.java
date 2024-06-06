@@ -2,8 +2,8 @@ package org.df.resourcehub.controllers;
 
 import jakarta.validation.Valid;
 import org.df.resourcehub.models.User;
-import org.df.resourcehub.reponses.AuthResponse;
-import org.df.resourcehub.reponses.RequestResponse;
+import org.df.resourcehub.responses.AuthResponse;
+import org.df.resourcehub.responses.RequestResponse;
 import org.df.resourcehub.services.AuthServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

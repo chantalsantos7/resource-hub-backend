@@ -1,4 +1,4 @@
-package org.df.resourcehub.reponses;
+package org.df.resourcehub.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.bind.annotation.ResponseBody;

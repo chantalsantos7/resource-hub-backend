@@ -1,6 +1,5 @@
 package org.df.resourcehub.services;
 
-//import org.df.resourcehub.helpers.PasswordHelpers;
 import org.df.resourcehub.models.User;
 import org.df.resourcehub.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
-
 @Service
 public class AuthServices {
     private final UserRepository userRepository;
@@ -33,7 +30,6 @@ public class AuthServices {
         }
 
 //        user.setPassword(passwordHelpers.generatePasswordHash(user.getPassword()));
-
         return userRepository.save(user);
     }
 
