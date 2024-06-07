@@ -20,6 +20,10 @@ public class CollectionsServices {
 
     public List<Collection> getAllCollections(String id) {
         //        System.out.println(collections.toString());
-        return collectionRepository.findByUserId(id);
+        return collectionRepository.findByUserId(id); //TODO: Rework so only returns collection IDs and names
+    }
+
+    public Optional<Collection> getCollection(String collectionId) {
+        return collectionRepository.findById(collectionId);
     }
 }

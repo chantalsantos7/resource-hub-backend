@@ -1,7 +1,8 @@
 package org.df.resourcehub.controllers;
 
 import org.df.resourcehub.models.Collection;
-import org.df.resourcehub.responses.CollectionsResponse;
+import org.df.resourcehub.responses.AllCollectionsResponse;
+import org.df.resourcehub.responses.CollectionResponse;
 import org.df.resourcehub.responses.RequestResponse;
 import org.df.resourcehub.services.CollectionsServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -25,16 +27,20 @@ public class CollectionsController {
     }
 
     @GetMapping("collections/get-all")
-    public ResponseEntity<RequestResponse> getAllCollections(@CookieValue("token") String tokenCookie) {
+    public ResponseEntity<RequestResponse> getAllCollections(@RequestParam("token") String tokenCookie) {
 
         List<Collection> collections = collectionsServices.getAllCollections(tokenCookie);
 //        System.out.println(collections);
-        return new ResponseEntity<>(new CollectionsResponse("Found collections", collections), HttpStatus.OK);
+        return new ResponseEntity<>(new AllCollectionsResponse("Found collections", collections), HttpStatus.OK);
     }
 
     @GetMapping("collections/view")
-    public ResponseEntity<RequestResponse> getCollection(@RequestBody String collectionId) {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<RequestResponse> getCollection(@RequestParam("id") String collectionId) {
+        Optional<Collection> collection = collectionsServices.getCollection(collectionId);
+        if (collection.isPresent()) {
+            return new ResponseEntity<>(new CollectionResponse("Found collection", collection.get()), HttpStatus.FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 @PostMapping("collections/add")
