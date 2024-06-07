@@ -23,7 +23,8 @@ public class CollectionsServices {
         return collectionRepository.findByUserId(id); //TODO: Rework so only returns collection IDs and names
     }
 
-    public Optional<Collection> getCollection(String collectionId) {
-        return collectionRepository.findById(collectionId);
+    public Collection getCollection(String collectionId) {
+        Optional<Collection> possibleCollection = collectionRepository.findById(collectionId);
+        return possibleCollection.orElse(null);
     }
 }

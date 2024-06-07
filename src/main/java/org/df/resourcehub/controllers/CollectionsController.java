@@ -36,11 +36,11 @@ public class CollectionsController {
 
     @GetMapping("collections/view")
     public ResponseEntity<RequestResponse> getCollection(@RequestParam("id") String collectionId) {
-        Optional<Collection> collection = collectionsServices.getCollection(collectionId);
-        if (collection.isPresent()) {
-            return new ResponseEntity<>(new CollectionResponse("Found collection", collection.get()), HttpStatus.FOUND);
+        Collection collection = collectionsServices.getCollection(collectionId);
+        if (collection == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new CollectionResponse("Found collection", collection), HttpStatus.FOUND);
     }
 
 @PostMapping("collections/add")

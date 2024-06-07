@@ -57,7 +57,9 @@ public class CollectionsServicesTests {
         Optional<Collection> expectedCollection = Optional.of(new Collection());
 //        expectedCollection.setId("1233454677689");
         when(collectionRepository.findById("1233454677689")).thenReturn(expectedCollection);
-        Optional<Collection> actualCollection = collectionsServices.getCollection(mockCollectionId);
-        assertEquals(expectedCollection, actualCollection);
+        expectedCollection.ifPresent(collection -> collection.setId(mockCollectionId));
+        Collection actualCollection = collectionsServices.getCollection(mockCollectionId);
+        assertEquals(expectedCollection.get().getId(), actualCollection.getId());
+//        assertEquals(expectedCollection, actualCollection);
     }
 }
