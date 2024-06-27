@@ -1,12 +1,15 @@
 package org.df.resourcehub.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
-import java.time.LocalDate;
+import java.security.SecureRandom;
 import java.util.Date;
+import java.util.Map;
 
-public class Resource {
+public class ResourcePatchRequest {
+
+    @JsonProperty("collectionId")
+    private String collectionId;
 
     @JsonProperty("name")
     private String name;
@@ -20,18 +23,17 @@ public class Resource {
     @JsonProperty("dateModified")
     private String dateModified;
 
-    @JsonProperty("link")
-    private String link;
-
-    @JsonProperty("notes")
-    private String notes;
 
     @JsonProperty("resourceId")
     private Integer resourceId;
-
     public Integer getResourceId() {
         return resourceId;
     }
+
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -76,29 +78,18 @@ public class Resource {
         this.notes = notes;
     }
 
-    public String getName() {
-        return name;
+    @JsonProperty("link")
+    private String link;
+
+    @JsonProperty("notes")
+    private String notes;
+
+    public String getCollectionId() {
+        return collectionId;
     }
 
-    public Resource(String name, String category, String dateAdded, String dateModified, String link, String notes) {
-        this.name = name;
-        this.category = category;
-        this.dateAdded = dateAdded;
-        this.dateModified = dateModified;
-        this.link = link;
-        this.notes = notes;
+    public void setCollectionId(String collectionId) {
+        this.collectionId = collectionId;
     }
-
-    public Resource(String name, String category, String dateAdded, String dateModified, String link, String notes, int resourceId) {
-        this.name = name;
-        this.category = category;
-        this.dateAdded = dateAdded;
-        this.dateModified = dateModified;
-        this.link = link;
-        this.notes = notes;
-        this.resourceId = resourceId;
-    }
-
-
 
 }
