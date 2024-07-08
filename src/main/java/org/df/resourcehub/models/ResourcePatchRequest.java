@@ -23,8 +23,7 @@ public class ResourcePatchRequest {
     @JsonProperty("dateModified")
     private String dateModified;
 
-
-    @JsonProperty("resourceId")
+    @JsonProperty("_id")
     private Integer resourceId;
     public Integer getResourceId() {
         return resourceId;

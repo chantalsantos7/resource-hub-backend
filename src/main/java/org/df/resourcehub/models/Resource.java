@@ -26,7 +26,7 @@ public class Resource {
     @JsonProperty("notes")
     private String notes;
 
-    @JsonProperty("resourceId")
+    @JsonProperty("_id")
     private Integer resourceId;
 
     public Integer getResourceId() {
@@ -80,16 +80,16 @@ public class Resource {
         return name;
     }
 
-    public Resource(String name, String category, String dateAdded, String dateModified, String link, String notes) {
-        this.name = name;
-        this.category = category;
-        this.dateAdded = dateAdded;
-        this.dateModified = dateModified;
-        this.link = link;
-        this.notes = notes;
-    }
+//    public Resource(String name, String category, String dateAdded, String dateModified, String link, String notes) {
+//        this.name = name;
+//        this.category = category;
+//        this.dateAdded = dateAdded;
+//        this.dateModified = dateModified;
+//        this.link = link;
+//        this.notes = notes;
+//    }
 
-    public Resource(String name, String category, String dateAdded, String dateModified, String link, String notes, int resourceId) {
+    public Resource(String name, String category, String dateAdded, String dateModified, String link, String notes, Integer resourceId) {
         this.name = name;
         this.category = category;
         this.dateAdded = dateAdded;

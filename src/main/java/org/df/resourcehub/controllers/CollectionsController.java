@@ -63,7 +63,7 @@ public class CollectionsController {
 
         try {
             ResourcePatchRequest request = mapper.readValue(json, ResourcePatchRequest.class);
-            Resource resource = new Resource(request.getName(), request.getCategory(), request.getDateAdded(), request.getDateModified(), request.getLink(), request.getNotes());
+            Resource resource = new Resource(request.getName(), request.getCategory(), request.getDateAdded(), request.getDateModified(), request.getLink(), request.getNotes(), request.getResourceId());
             Collection collection = collectionsServices.addNewResourceToCollection(request.getCollectionId(), resource);
             if (collection != null) {
                 return new ResponseEntity<>(new CollectionResponse("Modified collection", collection), HttpStatus.OK);
