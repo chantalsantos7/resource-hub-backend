@@ -51,8 +51,18 @@ public class CollectionsController {
     }
 
     @PostMapping("collections/add")
-    public String addNewCollection() {
-        return "i could add one if i wanted to";
+    public ResponseEntity<RequestResponse> addNewCollection(RequestEntity<String> requestEntity) {
+        String json = Objects.requireNonNull(requestEntity.getBody()).trim();
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            Collection collection = mapper.readValue(json, Collection.class);
+            collectionsServices.addNewCollection(collection);
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     //Body needs to be a new Resource, but also have the collection Id to know which collection to patch
