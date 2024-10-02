@@ -6,6 +6,7 @@ import org.df.resourcehub.repositories.CollectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,8 +39,17 @@ public class CollectionsServices {
         Optional<Collection> collection = collectionRepository.findById(collectionId);
         if (collection.isPresent()) {
             Collection actual = collection.get();
-            List<Resource> existingResources = actual.getResources();
-            existingResources.add(newResource);
+            //try the getResources function, if it comes null, create a new list;
+
+            List<Resource> existingResources;
+            try {
+                existingResources = actual.getResources();
+                existingResources.add(newResource);
+            } catch (NullPointerException e) {
+                existingResources = new ArrayList<>();
+                existingResources.add(newResource);
+            }
+
             actual.setResources(existingResources);
             Integer updated = collectionRepository.updateResources(collectionId, existingResources);
             if (updated == 1) {

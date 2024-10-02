@@ -1,11 +1,13 @@
 package org.df.resourcehub;
 
 import org.df.resourcehub.models.Collection;
+import org.df.resourcehub.models.Resource;
 import org.df.resourcehub.repositories.CollectionRepository;
 import org.df.resourcehub.services.CollectionsServices;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -61,5 +63,17 @@ public class CollectionsServicesTests {
         Collection actualCollection = collectionsServices.getCollection(mockCollectionId);
         assertEquals(expectedCollection.get().getId(), actualCollection.getId());
 //        assertEquals(expectedCollection, actualCollection);
+    }
+
+    @Test
+    public void testAddToCollectionReturnsSingleCollection() {
+        String mockCollectionId = "1233454677689";
+        Resource mockResource = mock(Resource.class);
+        Optional<Collection> expectedCollection = Optional.of(new Collection());
+        when(collectionRepository.findById(mockCollectionId)).thenReturn(expectedCollection);
+        when(collectionRepository.updateResources(eq(mockCollectionId), anyList())).thenReturn(1);
+        Collection actualCollection = collectionsServices.addNewResourceToCollection(mockCollectionId, mockResource);
+        assertEquals(expectedCollection.get().getId(), actualCollection.getId());
+
     }
 }
