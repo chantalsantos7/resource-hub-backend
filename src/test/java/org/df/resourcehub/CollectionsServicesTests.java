@@ -76,4 +76,38 @@ public class CollectionsServicesTests {
         assertEquals(expectedCollection.get().getId(), actualCollection.getId());
 
     }
+
+//    @Test
+//    public void testEditResourceInCollectionUpdatesCollection() {
+//        String mockCollectionId = "1233454677689";
+//        Resource mockEditedResource = mock(Resource.class);
+//        Integer mockResourceId = 1;
+//        Optional<Collection> expectedCollection = Optional.of(new Collection());
+//        when(collectionRepository.findById(mockCollectionId)).thenReturn(expectedCollection);
+////        when(expectedCollection.get().getResources()).thenReturn(anyList());
+//        when(collectionRepository.updateResources(eq(mockCollectionId), anyList())).thenReturn(1);
+//        Collection actualCollection = collectionsServices.editResourceInCollection(mockCollectionId, mockResourceId, mockEditedResource);
+//        assertEquals(expectedCollection.get().getId(), actualCollection.getId());
+//
+//    }
+
+    @Test
+    public void testEditResourceInCollectionUpdatesCollection() {
+        String mockCollectionId = "1233454677689";
+        Resource mockEditedResource = mock(Resource.class);
+        Integer mockResourceId = 1;
+        List<Resource> mockResources = new ArrayList<>();
+        mockResources.add(new Resource("name", "category", "dateAdded", "dateModified", "link", "notes", mockResourceId));
+
+        Collection expectedCollection = mock(Collection.class);
+        when(collectionRepository.findById(mockCollectionId)).thenReturn(Optional.ofNullable(expectedCollection));
+        when(expectedCollection.getId()).thenReturn(mockCollectionId);
+        when(expectedCollection.getResources()).thenReturn(mockResources);
+
+        when(collectionRepository.updateResources(eq(mockCollectionId), anyList())).thenReturn(1);
+        Collection actualCollection = collectionsServices.editResourceInCollection(mockCollectionId, mockResourceId, mockEditedResource);
+
+        assertEquals(expectedCollection.getId(), actualCollection.getId());
+        assertEquals(expectedCollection.getResources(), actualCollection.getResources());
+    }
 }

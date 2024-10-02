@@ -63,19 +63,30 @@ public class CollectionsServices {
         Optional<Collection> collection = collectionRepository.findById(collectionId); //TODO: edit resource route reaches here, Spring throws an error about not being able to instantiate Resource
         if (collection.isPresent()) {
             Collection actual = collection.get();
-            List<Resource> existingResources = actual.getResources();
-            for (int i = 0; i < existingResources.size(); i++) {
-                if (Objects.equals(existingResources.get(i).getResourceId(), resourceId)) {
-                    existingResources.remove(i);
-                    existingResources.add(editedResource);
-                    break;
+            List<Resource> existingResources;
+
+            try {
+                existingResources = actual.getResources();
+                for (int i = 0; i < existingResources.size(); i++) {
+                    if (Objects.equals(existingResources.get(i).getResourceId(), resourceId)) {
+                        existingResources.remove(i);
+                        existingResources.add(editedResource);
+                        break;
+                    }
                 }
+                actual.setResources(existingResources);
+                Integer updated = collectionRepository.updateResources(collectionId, existingResources);
+                if (updated == 1) {
+                    return actual;
+                }
+            } catch (NullPointerException e) {
+                //honestly if you're trying to edit a resource and the resources list doesn't exist that is a major failure
+                return null;
             }
-            actual.setResources(existingResources);
-            Integer updated = collectionRepository.updateResources(collectionId, existingResources);
-            if (updated == 1) {
-                return actual;
-            }
+
+
+
+
         }
         return null;
     }
